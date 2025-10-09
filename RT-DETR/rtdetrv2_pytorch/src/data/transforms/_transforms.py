@@ -12,6 +12,7 @@ import torchvision.transforms.v2.functional as F
 
 import PIL
 import PIL.Image
+import PIL.ImageFile
 
 from typing import Any, Dict, List, Optional
 
@@ -21,6 +22,8 @@ from .._misc import SanitizeBoundingBoxes
 
 from ...core import register
 
+PIL.ImageFile.LOAD_TRUNCATED_IMAGES = True
+PIL.Image.MAX_IMAGE_PIXELS = None
 
 RandomPhotometricDistort = register()(T.RandomPhotometricDistort)
 RandomZoomOut = register()(T.RandomZoomOut)
