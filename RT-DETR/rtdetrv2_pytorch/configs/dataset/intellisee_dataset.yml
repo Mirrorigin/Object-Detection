@@ -1,0 +1,66 @@
+task: detection
+
+evaluator:
+  type: CocoEvaluator
+  iou_types: ['bbox', ]
+
+num_classes: 21
+target_classes: &intellisee_classes
+  - object_carryable_basket
+  - object_carryable_boxpackage
+  - object_holdable_bottlecup
+  - object_carryable_handbag
+  - object_holdable_clipboardpaper
+  - object_holdable_other
+  - object_holdable_radiowalkietalkie
+  - object_holdable_umbrella
+  - object_holdable_pursewallet
+  - reflection
+  - backpack
+  - cellphone
+  - broom
+  - person_standing
+  - person_fallen
+  - person_sitting
+  - spill
+  - snow
+  - vehicle
+  - handgun
+  - longgun
+remap_mscoco_category: False
+
+
+train_dataloader:
+  type: DataLoader
+  dataset:
+    type: IntelliSeeDataset
+    classes: *intellisee_classes
+    img_folder: /Shared/nas4321/projects/intellisee/MasterData/train/
+    ann_file: /Shared/nas4321/projects/intellisee/MasterData/train/_annotations.coco.json
+    return_masks: False
+    transforms:
+      type: Compose
+      ops: ~
+  shuffle: True
+  num_workers: 4
+  drop_last: True
+  collate_fn:
+    type: BatchImageCollateFuncion
+
+
+val_dataloader:
+  type: DataLoader
+  dataset:
+    type: IntelliSeeDataset
+    classes: *intellisee_classes
+    img_folder: /Shared/nas4321/projects/intellisee/MasterData/valid/
+    ann_file: /Shared/nas4321/projects/intellisee/MasterData/valid/_annotations.coco.json
+    return_masks: False
+    transforms:
+      type: Compose
+      ops: ~
+  shuffle: False
+  num_workers: 4
+  drop_last: False
+  collate_fn:
+    type: BatchImageCollateFuncion
