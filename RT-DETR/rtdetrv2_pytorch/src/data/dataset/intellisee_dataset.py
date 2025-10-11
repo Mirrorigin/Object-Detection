@@ -16,7 +16,7 @@ class IntelliSeeDataset(CocoDetection): # Inherits from the original CocoDetecti
 
         self.classes = classes
         # MappingL class name to the contiguous ID (1, 2, ...)
-        name_to_new_id = {name: i+1 for i, name in enumerate(self.classes)}   # {"class_name": new_contiguous_id }
+        name_to_new_id = {name: i for i, name in enumerate(self.classes)}   # {"class_name": new_contiguous_id }
         # Mapping original class ID to contiguous ID
         self.original_to_contiguous = {}    # {original_cls_id: new_contiguous_id}
 
@@ -43,7 +43,7 @@ class IntelliSeeDataset(CocoDetection): # Inherits from the original CocoDetecti
         # Directly overwrite the attributes in the underlying coco object.
         self.coco.dataset['images'] = [img for img in self.coco.dataset['images'] if img['id'] in kept_image_ids]
         self.coco.dataset['annotations'] = list(new_anns_dict.values())
-        self.coco.dataset['categories'] = [{'id': i+1, 'name': class_name} for i, class_name in enumerate(self.classes)]
+        self.coco.dataset['categories'] = [{'id': i, 'name': class_name} for i, class_name in enumerate(self.classes)]
 
         self.coco.createIndex()
 
